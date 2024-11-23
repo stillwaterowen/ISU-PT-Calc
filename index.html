@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pythagorean Theorem Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    header {
+      background-color: #007BFF;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: 30px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    h1 {
+		color: #ffffff
+    }
+    h2, h3 {
+      color: #007BFF;
+    }
+    input[type="number"] {
+      width: calc(100% - 22px);
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .result {
+      margin-top: 10px;
+      font-size: 1em;
+      color: green;
+    }
+    .error {
+      color: red;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Pythagorean Theorem Calculator</h1>
+  </header>
+  <div class="container">
+    <h2>Calculate Missing Side</h2>
+
+    <!-- Hypotenuse Calculation -->
+    <h3>Find the Hypotenuse (c)</h3>
+    <input type="number" id="legA" placeholder="Enter Leg a" min="0">
+    <input type="number" id="legB" placeholder="Enter Leg b" min="0">
+    <button onclick="calculateHypotenuse()">Calculate Hypotenuse</button>
+    <div class="result" id="hypotenuseResult"></div>
+
+    <!-- Leg Calculation -->
+    <h3>Find a Missing Leg</h3>
+    <input type="number" id="hypotenuse" placeholder="Enter Hypotenuse (c)" min="0">
+    <input type="number" id="knownLeg" placeholder="Enter Known Leg (a or b)" min="0">
+    <button onclick="calculateMissingLeg()">Calculate Missing Leg</button>
+    <div class="result" id="legResult"></div>
+  </div>
+
+  <script>
+    function calculateHypotenuse() {
+      const legA = parseFloat(document.getElementById('legA').value);
+      const legB = parseFloat(document.getElementById('legB').value);
+      
+      if (legA < 0 || legB < 0) {
+        document.getElementById('hypotenuseResult').textContent = 'Error: Legs cannot be negative.';
+        document.getElementById('hypotenuseResult').className = 'error';
+        return;
+      }
+
+      if (isNaN(legA) || isNaN(legB)) {
+        document.getElementById('hypotenuseResult').textContent = 'Error: Both legs must be provided.';
+        document.getElementById('hypotenuseResult').className = 'error';
+        return;
+      }
+
+      const hypotenuse = Math.sqrt(legA ** 2 + legB ** 2).toFixed(2);
+      document.getElementById('hypotenuseResult').textContent = `The hypotenuse (c) is: ${hypotenuse}`;
+      document.getElementById('hypotenuseResult').className = 'result';
+    }
+
+    function calculateMissingLeg() {
+      const hypotenuse = parseFloat(document.getElementById('hypotenuse').value);
+      const knownLeg = parseFloat(document.getElementById('knownLeg').value);
+
+      if (hypotenuse < 0 || knownLeg < 0) {
+        document.getElementById('legResult').textContent = 'Error: Values cannot be negative.';
+        document.getElementById('legResult').className = 'error';
+        return;
+      }
+
+      if (isNaN(hypotenuse) || isNaN(knownLeg)) {
+        document.getElementById('legResult').textContent = 'Error: Both hypotenuse and known leg must be provided.';
+        document.getElementById('legResult').className = 'error';
+        return;
+      }
+
+      if (hypotenuse <= knownLeg) {
+        document.getElementById('legResult').textContent = 'Error: Hypotenuse must be greater than the known leg.';
+        document.getElementById('legResult').className = 'error';
+        return;
+      }
+
+      const missingLeg = Math.sqrt(hypotenuse ** 2 - knownLeg ** 2).toFixed(2);
+      document.getElementById('legResult').textContent = `The missing leg is: ${missingLeg}`;
+      document.getElementById('legResult').className = 'result';
+    }
+  </script>
+</body>
+</html>
